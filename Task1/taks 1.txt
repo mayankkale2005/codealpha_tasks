@@ -1,0 +1,68 @@
+import random
+
+class Flashcard:
+    def __init__(self, question, answer):
+        self.question = question
+        self.answer = answer
+
+class FlashcardQuiz:
+    def __init__(self):
+        self.flashcards = []
+        self.score = 0
+
+    def add_flashcard(self):
+        question = input("Enter the question: ")
+        answer = input("Enter the answer: ")
+        flashcard = Flashcard(question, answer)
+        self.flashcards.append(flashcard)
+        print("Flashcard added successfully!\n")
+
+    def start_quiz(self):
+        if not self.flashcards:
+            print("No flashcards available. Please add flashcards first.")
+            return
+        
+        random.shuffle(self.flashcards)
+        self.score = 0
+
+        print("\n--- Flashcard Quiz Start! ---\n")
+        for flashcard in self.flashcards:
+            user_answer = input(f"Question: {flashcard.question}\nYour answer: ")
+
+            if user_answer.strip().lower() == flashcard.answer.strip().lower():
+                print("Correct!")
+                self.score += 1
+            else:
+                print(f"Wrong! The correct answer was: {flashcard.answer}")
+            print()
+
+        self.display_score()
+
+    def display_score(self):
+        total_flashcards = len(self.flashcards)
+        print(f"Your total score: {self.score}/{total_flashcards}")
+        print(f"Your accuracy: {self.score / total_flashcards * 100:.2f}%")
+
+def main():
+    quiz = FlashcardQuiz()
+
+    while True:
+        print("\n--- Flashcard Quiz Menu ---")
+        print("1. Add Flashcard")
+        print("2. Start Quiz")
+        print("3. Exit")
+
+        choice = input("Choose an option: ")
+
+        if choice == "1":
+            quiz.add_flashcard()
+        elif choice == "2":
+            quiz.start_quiz()
+        elif choice == "3":
+            print("Thanks for using Flashcard Quiz. Goodbye!")
+            break
+        else:
+            print("Invalid option. Please try again.")
+
+if __name__ == "__main__":
+    main()
